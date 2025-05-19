@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Madam Ji</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@700&display=swap');
+    
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f0524 0%, #1a0536 50%, #300748 100%);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .star {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+      animation: twinkle 3s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+
+    .birthday-text {
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(90deg, #ff6b6b, #ffb347, #9b59b6, #3498db, #2ecc71);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbow 8s linear infinite;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .birthday-text span {
+      opacity: 0;
+      transform: translateY(30px) rotate(10deg);
+      display: inline-block;
+      animation-fill-mode: forwards;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    }
+
+    .heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 0, 102, 0.8);
+      transform: rotate(45deg);
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 40px rgba(255, 0, 102, 0.8);
+    }
+
+    .heart:before, .heart:after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 0, 102, 0.8);
+      border-radius: 50%;
+      box-shadow: 0 0 40px rgba(255, 0, 102, 0.8);
+    }
+
+    .heart:before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      left: -15px;
+    }
+
+    @keyframes pulse {
+      0% { transform: rotate(45deg) scale(1); opacity: 0.8; }
+      50% { transform: rotate(45deg) scale(1.4); opacity: 1; }
+      100% { transform: rotate(45deg) scale(1); opacity: 0.8; }
+    }
+
+    .firework {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      animation: particleAnimation 1.5s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    @keyframes particleAnimation {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      70% { opacity: 0.7; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(0.1); opacity: 0; }
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      user-select: none;
+      animation: floatUp 8s linear forwards;
+      opacity: 0;
+      transform: translateY(100vh) rotate(0deg);
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-50px) rotate(var(--rotate-val)); }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      animation: confettiFall 8s linear infinite;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      85% { opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .glitter {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 10px 2px white;
+      animation: glitter 4s linear infinite;
+    }
+
+    @keyframes glitter {
+      0%, 100% { opacity: 0; transform: scale(0.1); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .next-button {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      background: linear-gradient(45deg, #FF3CAC, #784BA0, #2B86C5);
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .next-button.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .glow {
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8));
+    }
+
+    .birthday-container {
+      animation: subtleBounce 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes subtleBounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+    
+    .birthday-subtitle {
+      background: linear-gradient(90deg, #ffeb3b, #ff9800);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen w-screen">
+  <div class="stars" id="stars"></div>
+  <div id="emojis" class="w-full h-full absolute top-0 left-0 pointer-events-none"></div>
+  <div id="confettiContainer" class="w-full h-full absolute top-0 left-0 pointer-events-none"></div>
+  <div id="glitterContainer" class="w-full h-full absolute top-0 left-0 pointer-events-none"></div>
+  
+  <div class="relative z-10 text-center birthday-container p-8 rounded-3xl">
+    <h1 class="birthday-text text-6xl md:text-8xl font-bold mb-8 tracking-wider">
+        Happy Birthday Kuchupuu !!
+    </h1>
+    
+    <h2 class="birthday-subtitle text-2xl md:text-3xl mb-10">May your day be as special as you are!</h2>
+    
+    <button id="nextButton" class="next-button mt-12 text-white font-bold py-4 px-10 rounded-full transition duration-500 transform hover:scale-110 focus:outline-none shadow-xl text-xl">
+      Lets cut the Cake 🎂→
+    </button>
+  </div>
+
+  <script>
+    // Create stars with better distribution and varied sizes
+    const starsContainer = document.getElementById('stars');
+    const numStars = 300;
+    
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      
+      // Varied sizes for more realistic starfield
+      const size = 0.5 + Math.random() * 3;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      
+      // Better distribution
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      
+      // Random twinkle delay for more natural effect
+      star.style.animationDelay = `${Math.random() * 5}s`;
+      
+      starsContainer.appendChild(star);
+    }
+    
+    // Animate birthday text with bouncy effect
+    const characters = document.querySelectorAll('.birthday-text span');
+    characters.forEach((char, index) => {
+      setTimeout(() => {
+        char.style.animation = `fadeInUp 0.7s ${index * 0.05}s cubic-bezier(0.17, 0.89, 0.32, 1.49) forwards`;
+      }, 200);
+    });
+    
+    // Show subtitle with delay
+    setTimeout(() => {
+      const subtitle = document.querySelector('.birthday-subtitle');
+      subtitle.style.transition = 'all 1s ease';
+      subtitle.style.opacity = '1';
+      subtitle.style.transform = 'translateY(0)';
+    }, 200 * characters.length);
+    
+    // Show next button after text animation completes
+    setTimeout(() => {
+      document.getElementById('nextButton').classList.add('visible');
+    }, 200 * characters.length + 800);
+    
+    // Create hearts with more variation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      
+      // Random position
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.top = `${Math.random() * 100}%`;
+      
+      // Random size and rotation
+      const scale = 0.3 + Math.random() * 0.7;
+      const rotate = Math.random() * 90 - 45;
+      heart.style.transform = `rotate(${rotate}deg) scale(${scale})`;
+      
+      // Random animation delay and duration
+      const animDuration = 1.5 + Math.random() * 1;
+      heart.style.animationDuration = `${animDuration}s`;
+      heart.style.animationDelay = `${Math.random() * 2}s`;
+      
+      // Random opacity
+      heart.style.opacity = 0.7 + Math.random() * 0.3;
+      
+      document.body.appendChild(heart);
+      
+      // Remove heart after animation
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+    
+    // Create hearts more frequently
+    setInterval(createHeart, 800);
+    
+    // Enhanced fireworks function
+    function createFirework() {
+      const firework = document.createElement('div');
+      firework.classList.add('firework');
+      
+      // Random position (entire screen)
+      const posX = Math.random() * window.innerWidth;
+      const posY = Math.random() * window.innerHeight * 0.8;
+      firework.style.left = `${posX}px`;
+      firework.style.top = `${posY}px`;
+      
+      document.body.appendChild(firework);
+      
+      // Random vibrant color for this firework
+      const hue = Math.floor(Math.random() * 360);
+      const colorStart = `hsl(${hue}, 100%, 70%)`;
+      const colorEnd = `hsl(${hue}, 100%, 50%)`;
+      
+      // Create particles with more variety
+      const particleCount = 60 + Math.floor(Math.random() * 60);
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random angle and distance for explosion pattern
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 30 + Math.random() * 150;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+        
+        // Alternate colors for sparkle effect
+        particle.style.background = i % 3 === 0 ? colorStart : i % 3 === 1 ? colorEnd : '#fff';
+        particle.style.boxShadow = `0 0 8px ${i % 3 === 0 ? colorStart : i % 3 === 1 ? colorEnd : '#fff'}`;
+        
+        // Varied sizes for particles
+        const particleSize = 1 + Math.random() * 4;
+        particle.style.width = `${particleSize}px`;
+        particle.style.height = `${particleSize}px`;
+        
+        // Varied animation speeds
+        const animDuration = 0.8 + Math.random() * 1.2;
+        particle.style.animationDuration = `${animDuration}s`;
+        
+        firework.appendChild(particle);
+      }
+      
+      // Remove firework after animation
+      setTimeout(() => {
+        firework.remove();
+      }, 1500);
+    }
+    
+    // Create more frequent fireworks
+    setInterval(createFirework, 400);
+    
+    // Create floating celebration emojis
+    const emojis = ['❤️', '🎂', '🎁', '🎈', '🎊', '✨', '🎉', '💖', '💕', '💝', '💫', '🥳', '🤩', '👑'];
+    const emojiContainer = document.getElementById('emojis');
+    
+    function createEmoji() {
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      // Random position (horizontal)
+      emoji.style.left = `${Math.random() * 100}%`;
+      
+      // Random size
+      const size = 1 + Math.random() * 2;
+      emoji.style.fontSize = `${size}rem`;
+      
+      // Random rotation during animation
+      const rotateVal = -45 + Math.random() * 90;
+      emoji.style.setProperty('--rotate-val', `${rotateVal}deg`);
+      
+      // Random animation duration
+      const duration = 6 + Math.random() * 6;
+      emoji.style.animationDuration = `${duration}s`;
+      
+      emojiContainer.appendChild(emoji);
+      
+      // Remove emoji after animation
+      setTimeout(() => {
+        emoji.remove();
+      }, duration * 1000);
+    }
+    
+    // Create emojis periodically
+    setInterval(createEmoji, 600);
+    
+    // Create falling confetti
+    const confettiColors = ['#ff6b6b', '#f8a5c2', '#c3f0ca', '#adcbf8', '#f9d89c', '#c5a3ff', '#a0e7e5'];
+    const confettiContainer = document.getElementById('confettiContainer');
+    
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      
+      // Random shape (square or rectangle)
+      if (Math.random() > 0.5) {
+        confetti.style.width = `${5 + Math.random() * 10}px`;
+        confetti.style.height = confetti.style.width;
+      } else {
+        confetti.style.width = `${5 + Math.random() * 10}px`;
+        confetti.style.height = `${5 + Math.random() * 10}px`;
+      }
+      
+      // Random position (horizontal)
+      confetti.style.left = `${Math.random() * 100}%`;
+      
+      // Random color
+      confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      
+      // Random animation duration and delay
+      const duration = 4 + Math.random() * 4;
+      const delay = Math.random() * 5;
+      confetti.style.animationDuration = `${duration}s`;
+      confetti.style.animationDelay = `${delay}s`;
+      
+      // Random rotation
+      confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+      
+      confettiContainer.appendChild(confetti);
+      
+      // Remove confetti after animation
+      setTimeout(() => {
+        confetti.remove();
+      }, (duration + delay) * 1000);
+    }
+    
+    // Create confetti periodically
+    for (let i = 0; i < 50; i++) {
+      setTimeout(createConfetti, i * 200);
+    }
+    setInterval(createConfetti, 300);
+    
+    // Create glitter effect
+    const glitterContainer = document.getElementById('glitterContainer');
+    
+    function createGlitter() {
+      const glitter = document.createElement('div');
+      glitter.classList.add('glitter');
+      
+      // Random position
+      glitter.style.left = `${Math.random() * 100}%`;
+      glitter.style.top = `${Math.random() * 100}%`;
+      
+      // Random size
+      const size = 2 + Math.random() * 4;
+      glitter.style.width = `${size}px`;
+      glitter.style.height = `${size}px`;
+      
+      // Random animation duration and delay
+      const duration = 1 + Math.random() * 3;
+      const delay = Math.random() * 2;
+      glitter.style.animationDuration = `${duration}s`;
+      glitter.style.animationDelay = `${delay}s`;
+      
+      // Random color
+      const hue = Math.floor(Math.random() * 360);
+      glitter.style.backgroundColor = `hsl(${hue}, 100%, 80%)`;
+      glitter.style.boxShadow = `0 0 10px 2px hsl(${hue}, 100%, 70%)`;
+      
+      glitterContainer.appendChild(glitter);
+      
+      // Remove glitter after animation
+      setTimeout(() => {
+        glitter.remove();
+      }, (duration + delay) * 1000 + 100);
+    }
+    
+    // Create glitter periodically
+    setInterval(createGlitter, 200);
+    
+    // Next button click handler with animation effect
+    document.getElementById('nextButton').addEventListener('click', () => {
+      // Add click animation
+      const button = document.getElementById('nextButton');
+      button.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1.1)';
+      }, 150);
+      
+      // Create burst of fireworks on click
+      for (let i = 0; i < 10; i++) {
+        setTimeout(createFirework, i * 100);
+      }
+      
+      // Redirect after short delay
+      setTimeout(() => {
+        window.location.href = 'cake.html';
+      }, 1200);
+    });
+    
+    // Custom animations
+    document.styleSheets[0].insertRule(`
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px) rotate(10deg); }
+        70% { transform: translateY(-10px) rotate(-5deg); }
+        100% { opacity: 1; transform: translateY(0) rotate(0); }
+      }
+    `, document.styleSheets[0].cssRules.length);
+    
+    // Create periodic bursts of fireworks and hearts
+    function createCelebrationBurst() {
+      // Burst of fireworks
+      for (let i = 0; i < 5; i++) {
+        setTimeout(createFirework, i * 200);
+      }
+      
+      // Burst of hearts
+      for (let i = 0; i < 5; i++) {
+        setTimeout(createHeart, i * 150);
+      }
+      
+      // Burst of emojis
+      for (let i = 0; i < 8; i++) {
+        setTimeout(createEmoji, i * 100);
+      }
+    }
+    
+    // Create celebration bursts periodically
+    setInterval(createCelebrationBurst, 5000);
+    
+    // Initialize celebration immediately
+    createCelebrationBurst();
+  </script>
+</body>
+</html>
